@@ -1,0 +1,15 @@
+{
+  "name": "codeial-social-media-app",
+  "version": "1.0.0",
+  "description": "A Node JS Social Media App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Kumar Sumit",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
