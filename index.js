@@ -1,15 +1,21 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const port = 8080;
-app.use('/', require('./routes'));
-// this by default will fetch routes/index.js files in index.js
-app.set('view engine', 'ejs');
-//this will set ejs as the view engine
-app.set('views', './views');
-// this will set views to look for views in the views folder
-app.listen(port, function(err){
+const expressLayout = require('express-ejs-layouts');
+app.use(expressLayout)
+const db = require('./config/mongoose')
+app.use(bodyParser.urlencoded({extended: false}));
+app.use('/',require('./routes'))
+app.use(express.static('./assets')) // for getting static
+app.set('layout extractStyles',true);
+app.set('layout extractScripts',true)
+app.set('view engine','ejs');
+app.set('views','./views')
+app.listen(port,function(err){
     if(err){
-        console.log(`Error in running the server: ${err}`)
+        console.log(`error in running the ${port}`)
+        return;
     }
-    console.log(`Server is running on port :${port}`)
+    console.log(`Server is running @ ${port}`)
 })
