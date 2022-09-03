@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 8080;
@@ -8,6 +9,7 @@ const db = require('./config/mongoose')
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/',require('./routes'))
 app.use(express.static('./assets')) // for getting static files in root/assets folder
+app.use(cookieParser());
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true)
 app.set('view engine','ejs');
