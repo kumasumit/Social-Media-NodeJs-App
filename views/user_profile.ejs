@@ -1,6 +1,7 @@
-<link rel="stylesheet" href="/css/user_profile.css">
-<h1>
-    FriendBook/ Profile Page
-</h1>
-<p>Name: <%= user.name %></p>
-<p>Email: <%= user.email %></p>
+<link rel="stylesheet" href="/css/user_profile.css" />
+<h1>FriendBook/ Profile Page</h1>
+<form action="/users/logout" method="GET">
+  <p>Name: <%= user.name %></p>
+  <p>Email: <%= user.email %></p>
+  <button type="submit">Sign Out</button>
+</form>

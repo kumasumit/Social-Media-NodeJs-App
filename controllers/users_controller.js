@@ -2,9 +2,11 @@
 const User = require('../models/users');
 //controller for profile page
 module.exports.profile = function(req, res){
-if(req.cookie.user_id){
+    // console.log(5);
+    // console.log(req.cookies);
+if(req.cookies.user_id){
     //find the user by Id
-    User.findById(req.cookie.user_id, function(err, user)
+    User.findById(req.cookies.user_id, function(err, user)
     {
         if(user){
             //if the user is found snd the user to the profile page
@@ -42,7 +44,7 @@ module.exports.create = function(req, res){
                     return;
                 }
                 //after creating the user redirect the user to sign in page for the new user to sign in
-                return res.redirect('users/sign-in');
+                return res.redirect('sign-in');
             })
         }
         // if the user is already present send the control back to sign up page
@@ -68,9 +70,9 @@ module.exports.createSession = function(req, res){
                 return res.redirect('back');
             }
             // handle session-creation if user is found and the password entered is same as password of the user in the database
-            res.cookie('user_id', user._id);
+            req.cookies.user_id = user._id;
             // now redirect the user to the profile page
-            return res.redirect('users/profile');
+            return res.redirect('profile');
         }
         // handle user not found redirect it to the sign-in page
         else{
@@ -93,4 +95,14 @@ module.exports.signIn = function(req, res){
     return res.render('user_sign_in', {
         title: "FriendBook | Sign In" 
     })
+}
+
+//controller for logout
+module.exports.logout = function(req, res)
+{   
+    //set the user_id stored in cookies.user_id to null
+    req.cookies.user_id = null;
+    return res.render('user_sign_in',{
+        title: "FriendBook | Sign In"
+    });
 }

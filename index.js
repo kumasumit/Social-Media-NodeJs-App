@@ -7,9 +7,10 @@ const expressLayout = require('express-ejs-layouts');
 app.use(expressLayout)
 const db = require('./config/mongoose')
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/',require('./routes'))
-app.use(express.static('./assets')) // for getting static files in root/assets folder
 app.use(cookieParser());
+app.use(express.static('./assets')) // for getting static files in root/assets folder
+app.use('/',require('./routes'))
+
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true)
 app.set('view engine','ejs');
