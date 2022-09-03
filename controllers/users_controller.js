@@ -1,3 +1,4 @@
+const { findOneAndUpdate } = require('../models/users');
 const User = require('../models/users');
 
 module.exports.profile = function(req, res){
@@ -35,9 +36,34 @@ module.exports.create = function(req, res){
 
 }
 //Controller for Sign In Form Submission
-module.exports.createSession = function(req, res){}
+module.exports.createSession = function(req, res){
+    //find the user by the email
+    User.findOne({email: req.body.email}, function(err, user){
+        if(err){
+            console.log('error in finding user in signing in');
+            return;
+        }
+        //handle user found
+        if(user){
+            //handle password which dont match with saved user password
+            if(user.password !== req.body.password){
+                //return the control back to the sign in page
+                return res.redirect('back');
+            }
+            // handle session-creation if user is found and the password entered is same as password of the user in the database
+            res.cookie('user_id', user._id);
+            // now redirect the user to the profile page
+            return res.redirect('users/profile');
+        }
+        // handle user not found redirect it to the sign-in page
+        else{
+            return res.redirect('back');
+        }
+    })
+}
 //Controller to render the signin page
-module.exports.signUp = function(req, res){
+module.exports.signUp = function(req, res)
+{
     return res.render('user_sign_up', {
         title: "FriendBook | Sign Up"
     })
