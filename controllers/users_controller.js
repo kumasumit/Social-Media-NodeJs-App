@@ -35,7 +35,9 @@ module.exports.create = function(req, res){
 
 }
 //Controller for Sign In Form Submission
-module.exports.createSession = function(req, res){}
+module.exports.createSession = function(req, res){
+    return res.redirect('/');
+}
 //Controller to render the signin page
 module.exports.signUp = function(req, res){
     return res.render('user_sign_up', {
