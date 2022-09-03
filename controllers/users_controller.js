@@ -1,8 +1,25 @@
-const { findOneAndUpdate } = require('../models/users');
+// const { findOneAndUpdate } = require('../models/users');
 const User = require('../models/users');
-
+//controller for profile page
 module.exports.profile = function(req, res){
-    res.send('<h1>User Profile</h1>')
+if(req.cookie.user_id){
+    //find the user by Id
+    User.findById(req.cookie.user_id, function(err, user)
+    {
+        if(user){
+            //if the user is found snd the user to the profile page
+            return res.render('user_profile', {
+                title: "User Profile",
+                user: user
+            })
+        }else{
+            return res.redirect('/users/sign-in');
+        }
+    })
+}else{
+    //if there are no cookies stored send the control back to the sign in page
+    return res.redirect('/users/sign-in');
+}
 }
 //Controller for Sign Up Form Submission
 // create User
