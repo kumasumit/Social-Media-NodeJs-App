@@ -1,7 +1,9 @@
 const User = require('../models/users');
 
 module.exports.profile = function(req, res){
-    res.send('<h1>User Profile</h1>')
+    res.render('user_profile', {
+        title: "User Profile"
+    })
 }
 //Controller for Sign Up Form Submission
 // create User
@@ -39,7 +41,12 @@ module.exports.createSession = function(req, res){
     return res.redirect('/');
 }
 //Controller to render the signin page
-module.exports.signUp = function(req, res){
+module.exports.signUp = function(req, res)
+{   if(req.isAuthenticated())
+    {
+    //  if user is alreday signed in , send the user to the profile page
+    return res.redirect('/users/profile')
+    }
     return res.render('user_sign_up', {
         title: "FriendBook | Sign Up"
     })
@@ -48,8 +55,24 @@ module.exports.signUp = function(req, res){
 
 
 //controller to render the signup page
-module.exports.signIn = function(req, res){
+module.exports.signIn = function(req, res)
+{   if(req.isAuthenticated())
+    {
+    //if user is logged in, redirect it to the profile page
+    return res.redirect('/users/profile')
+    }
     return res.render('user_sign_in', {
         title: "FriendBook | Sign In" 
     })
+}
+
+//controller for logout for signout
+module.exports.destroySession = function(req, res, next)
+{
+    
+        req.logout(function(err) {
+          if (err) { return next(err); }
+          res.redirect('/');
+        });
+      
 }

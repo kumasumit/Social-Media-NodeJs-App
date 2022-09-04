@@ -9,6 +9,7 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport_local_strategy');
+const MongoStore = require('connect-mongo');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static('./assets')) // for getting static files in root/assets folder
@@ -19,20 +20,22 @@ app.set('layout extractScripts',true)
 //set up the view engine
 app.set('view engine','ejs');
 app.set('views','./views')
+// mongo store is used to store the session cookie in the db
 app.use(session({
-    name: 'friendbook',
+    name: 'FriendBook',
     //todo change the secret in production
     secret: 'blahsomething',
     saveUninitialized: false,
     resave:false,
     cookie: {
         maxAge: (1000*60*100)
-    }
-
+    },
+    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/friendBook-development' })
 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.setAuthenticatedUser);
 //routes middleware will be at the bottom
 app.use('/',require('./routes'))
 
