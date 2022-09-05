@@ -1,0 +1,29 @@
+
+header{
+    background-color:cyan;
+    
+    display: flex;
+    justify-content:space-between;
+    height: max-content;
+    h1{
+        margin: 0;
+    }
+    ul{
+        display: flex;
+        justify-content:space-around;
+        margin: 0;
+        li{
+            font-weight: bold;
+            font-size: 22px;
+            list-style: none;
+            margin: 0 20px;
+            color:purple;
+            a{
+                color: none;
+                &:hover{
+                    color: red;
+                }
+            }
+        }
+    }
+}

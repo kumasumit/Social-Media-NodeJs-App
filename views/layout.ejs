@@ -4,11 +4,17 @@
             <%= title %>
         </title>
         <link rel="stylesheet" href="/css/layout.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
         <%- style %>
     </head>
     <body>
         <%- include('_header'); %>
-        <%- body %>
+        <main id="layout-main">
+            <!-- this is main body/wall/timeline where you see all your posts, friends and other things     -->
+            <%- body %>
+        </main>
+        
         <%- include('_footer'); %>
         <%- script %>
     </body>

@@ -1,0 +1,21 @@
+footer {
+  background-color: grey;
+  display: flex;
+  align-content: flex-start;
+  height: max-content; }
+  footer h2 {
+    margin: 2px; }
+  footer ul {
+    display: flex;
+    margin: 0;
+    flex-direction: column; }
+    footer ul li {
+      font-weight: bold;
+      font-size: 22px;
+      list-style: none;
+      margin: 2px 20px;
+      color: purple; }
+      footer ul li a {
+        color: none; }
+        footer ul li a:hover {
+          color: blue; }
