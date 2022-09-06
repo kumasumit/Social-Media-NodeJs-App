@@ -17,47 +17,8 @@
   <div id="posts-list-container">
     <ul>
       <% for(post of posts) {%>
-      <li>
-        <% if(locals.user && (locals.user.id==post.user.id)) {%>
-         <small>
-          <a href="/posts/destroy/<%= post.id %>">X</a>
-         </small> 
-        <% } %> 
-        <p>
-          <%= post.content %> <br />
-          <%= post.user.name %>
-        </p>
-        <div class="post-comments">
-          <% if(locals.user) { %>
-          <form action="/comments/create" method="POST">
-            <input
-              type="text"
-              name="content"
-              placeholder="Add Comments ...."
-              required
-            />
-            <input type="hidden" name="post" value="<%= post._id %>" />
-            <input type="submit" value="Add Comment" />
-          </form>
-          <% } %>
-          <div class="post-comments-list">
-            <ul id="post_comments_<%= post._id %>">
-              <% for(comment of post.comments) { %>
-              <p>
-                <% if(locals.user && locals.user.id == comment.user.id) { %>
-                <!-- if the id of ther logged in user an dthe id of user who created the comment is same, only then show the delete button   -->
-                  <small>
-                    <a href="/comments/destroy/<%= comment.id %>">X</a>
-                  </small> 
-                <% } %>
-                <%= comment.content %><br/>
-                <%= comment.user.name %>
-              </p>
-              <% } %>
-            </ul>
-          </div>
-        </div>
-      </li>
+        <!-- include the posts partials here -->
+        <%- include('_posts') -%>
       <% } %>
     </ul>
   </div>
