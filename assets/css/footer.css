@@ -2,6 +2,10 @@ footer {
   background-color: grey;
   display: flex;
   align-content: flex-start;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
   height: max-content; }
   footer h2 {
     margin: 2px; }

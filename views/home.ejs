@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/home.css">
 <h1>FriendBook / <%= title %></h1>
 <section id="feed-posts">
   <h4>Posts</h4>
@@ -43,7 +44,13 @@
             <ul id="post_comments_<%= post._id %>">
               <% for(comment of post.comments) { %>
               <p>
-                <%= comment.content %><br />
+                <% if(locals.user && locals.user.id == comment.user.id) { %>
+                <!-- if the id of ther logged in user an dthe id of user who created the comment is same, only then show the delete button   -->
+                  <small>
+                    <a href="/comments/destroy/<%= comment.id %>">X</a>
+                  </small> 
+                <% } %>
+                <%= comment.content %><br/>
                 <%= comment.user.name %>
               </p>
               <% } %>
