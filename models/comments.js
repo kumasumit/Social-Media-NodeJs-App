@@ -8,16 +8,19 @@ const commentSchema = new mongoose.Schema({
     },
     //here content is the content of the comment user creates
     //link the comment to the user who created the comment
-    user: {
+    //here userId is the id of the user who created that comment
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     //link the comment to the post on which the comment was pasted
-    post: {
+    //postId stores the id of the post on which the comment was created
+    postId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     },
-    postCretedByUserId: {
+    //stores the userId of the of the user who created that post on which comment was created
+    parentPostUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }

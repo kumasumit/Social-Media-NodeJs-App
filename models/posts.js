@@ -4,7 +4,8 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    user: {
+    //here we store the id of user who created the post
+    userId: {
         type:  mongoose.Schema.Types.ObjectId,
         ref: 'User'
         // here we are referecing the user schema

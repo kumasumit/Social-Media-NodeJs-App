@@ -7,9 +7,9 @@ module.exports.create = function(req, res){
         if (post){
             Comment.create({
                 content: req.body.content,
-                post: post,
-                user: req.user._id,
-                postCretedByUserId: post.user
+                userId: req.user._id,
+                postId: post,
+                parentPostUserId: post.userId
             }, function(err, comment){
                 // handle error
 

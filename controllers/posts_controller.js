@@ -1,33 +1,44 @@
 const Post = require('../models/posts');
 const Comment = require('../models/comments');
-module.exports.create = function (req, res) {
-    Post.create({
-        content: req.body.content,
-        user: req.user._id
-    }, function (err, post) {
-        if (err) {
-            console.log('error in creating a post');
-            return;
-        }
+//controller to create a post
+module.exports.create = async function (req, res) {
+    try {
+        //create a post with content and userId
+        await Post.create({
+            content: req.body.content,
+            userId: req.user._id
+        })
+        //after creating the post return the control back
         return res.redirect('back');
-    })
+    } catch (err) {
+        console.log("Error: ", err);
+        return;
+    }
 }
 
 //delete a post and all associated comments
-module.exports.destroy = function(req, res){
-    Post.findById(req.params.id, function(err, post){
+module.exports.destroy = function (req, res) {
+    try {
+        //find a post by id and store it in a post variable
+        let post = await Post.findById(req.params.id);
         // .id means converting the object id into string
-        if (post.user == req.user.id){
+        if (post.userId == req.user.id) {
+            //if the userId of the user who created the post is same as the id of user who is logged in only then delete the post
             post.remove();
+            //delete the post
             //go inside comments and search all the comments belonging to a particular post and delete them
-            Comment.deleteMany({post: req.params.id}, function(err){
-                return res.redirect('back');
-            });
+            await Comment.deleteMany({ postId: req.params.id });
+            return res.redirect('back');
         }
         //if no post is found for that id, send the control back
-        else{
+        else {
             return res.redirect('back');
         }
 
-    });
+    } catch (err) {
+        console.log("Error: ", err);
+        return;
+
+    }
 }
+
