@@ -1,9 +1,14 @@
 const User = require('../models/users');
 
 module.exports.profile = function(req, res){
-    res.render('user_profile', {
-        title: "User Profile"
+    User.findById(req.params.id, function(err, user){
+        //here params.id is the id of the user on which you clicked
+        res.render('user_profile', {
+            title: "User Profile",
+            profile_user: user
+        })
     })
+    
 }
 //Controller for Sign Up Form Submission
 // create User
@@ -75,4 +80,16 @@ module.exports.destroySession = function(req, res, next)
           res.redirect('/');
         });
       
+}
+
+//controller to update profile
+module.exports.update = function(req, res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            return res.redirect('back');
+
+        })
+    }else{
+        return res.status(401).send('Unauthorized');
+    }
 }

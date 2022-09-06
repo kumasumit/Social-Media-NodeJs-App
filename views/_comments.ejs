@@ -5,6 +5,10 @@
         <small>
             <a href="/comments/destroy/<%= comment.id %>">X</a>
         </small>
+        <% } else if(locals.user && comment.postCretedByUserId == locals.user.id) { %>
+            <small>
+                <a href="/comments/destroyByPost/<%= comment.id %>">X</a>
+            </small>            
         <% } %>
         <%= comment.content %><br />
         <%= comment.user.name %>
