@@ -1,39 +1,35 @@
-<link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/home.css" />
 <h1>FriendBook / <%= title %></h1>
 <div id="home-container">
-  
-</div>
-<section id="feed-posts">
-  <h4>Posts</h4>
-  <% if(locals.user){ %>
-  <form action="/posts/create" id="new-post-form" method="POST">
-    <textarea
-      name="content"
-      cols="30"
-      rows="3"
-      placeholder="Type Here..."
-      required
-    ></textarea>
-    <input type="submit" value="Post" />
-  </form>
-  <% } %>
-  <div id="posts-list-container">
-    <ul>
-      <% for(post of posts) {%>
+  <section id="feed-posts">
+    <h4>Posts</h4>
+    <% if(locals.user){ %>
+    <form action="/posts/create" id="new-post-form" method="POST">
+      <textarea
+        name="content"
+        cols="30"
+        rows="3"
+        placeholder="Type Here..."
+        required
+      ></textarea>
+      <input type="submit" value="Post" />
+    </form>
+    <% } %>
+    <div id="posts-list-container">
+      <ul>
+        <% for(post of posts) {%>
         <!-- include the posts partials here -->
-        <%- include('_posts') -%>
-      <% } %>
-    </ul>
-  </div>
-</section>
-<section id="user-friends">
-  <h4>Friends</h4>
-  <% for(user of all_users) { %>
+        <%- include('_posts') -%> <% } %>
+      </ul>
+    </div>
+  </section>
+  <section id="user-friends">
+    <h4>Friends</h4>
+    <% for(user of all_users) { %>
     <!-- display all the users alongwith a link to each user profile -->
     <p>
-      <a href="/users/profile/<%= user.id %>">
-        <%= user.name %>
-      </a>
+      <a href="/users/profile/<%= user.id %>"> <%= user.name %> </a>
     </p>
-  <% } %>  
-</section>
+    <% } %>
+  </section>
+</div>

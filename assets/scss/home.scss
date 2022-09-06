@@ -1,8 +1,19 @@
-#feed-posts{
-    padding-bottom: 100px;
+#home-container{
+    display: flex;
+    #feed-posts{
+        width: 70%;
+        padding: 10px;
+        padding-bottom: 100px;
+    }
+    #user-friends {
+        width: 30%;
+        padding: 10px;
+        padding-bottom: 100px;
+        border-left: 1px solid lightgrey;
+        height: 100vh;
+        
+    
+    }
+    
 }
 
-#user-friends {
-    padding-bottom: 100px;
-
-}
