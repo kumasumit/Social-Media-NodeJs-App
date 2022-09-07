@@ -2,11 +2,11 @@
 const mongoose = require('mongoose');
 //design a mongoose Comment Schema
 const commentSchema = new mongoose.Schema({
+    //here content is the content of the comment user creates
     content:{
         type: String,
         required: true
-    },
-    //here content is the content of the comment user creates
+    },    
     //link the comment to the user who created the comment
     //here userId is the id of the user who created that comment
     userId: {
