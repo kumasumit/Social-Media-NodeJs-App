@@ -1,14 +1,15 @@
 <li>
-    <% if(locals.user && (locals.user.id==post.user.id)) {%>
+    <% if(locals.user && (locals.user.id == post.userId.id)) {%>
          <small>
           <a href="/posts/destroy/<%= post.id %>">X</a>
-         </small> 
+         </small>
         <% } %>
     <p>
         <%= post.content %> <br />
-        <%= post.user.name %>
+        <%= post.userId.name %>
+        <!-- display.name only if post.userId exists, if it does not do nothing -->
     </p>
-    <div class="post-comments">
+    <!-- <div class="post-comments">
         <% if(locals.user) { %>
           <form action="/comments/create" method="POST">
             <input
@@ -28,5 +29,5 @@
                 <% } %>
             </ul>
         </div>
-    </div>
+    </div> -->
 </li>

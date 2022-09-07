@@ -1,68 +1,66 @@
-const Comment = require('../models/comments');
-const Post = require('../models/posts');
+const Comment = require("../models/comments");
+const Post = require("../models/posts");
 
-module.exports.create = function(req, res){
-    Post.findById(req.body.post, function(err, post){
+//controller to create a comment
+module.exports.create = async function (req, res) {
+  try {
+    let post = await Post.findById(req.body.postId);
+    if (post) {
+      let comment = await Comment.create({
+        content: req.body.content,
+        userId: req.user._id,
+        postId: req.body.postId,
+        parentPostUserId: post.userId,
+      });
+      post.comments.push(comment);
+      post.save();
+      res.redirect("/");
+    }
+  } catch (err) {
+    console.log("Error: ", err);
+    return;
+  }
+};
 
-        if (post){
-            Comment.create({
-                content: req.body.content,
-                userId: req.user._id,
-                postId: post,
-                parentPostUserId: post.userId
-            }, function(err, comment){
-                // handle error
+//delete comments if logged-in user and user who posted that comment are same
+module.exports.destroy = async function (req, res) {
+  try {
+    let comment = await Comment.findById(req.params.id);
 
-                post.comments.push(comment);
-                post.save();
+    if (comment.userId == req.user.id) {
+      let postId = comment.postId;
 
-                res.redirect('/');
-            });
-        }
+      comment.remove();
 
-    });
-}
+      let post = Post.findByIdAndUpdate(postId, {
+        $pull: { comments: req.params.id },
+      });
+      return res.redirect("back");
+    } else {
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log("Error", err);
+    return;
+  }
+};
 
-//delete comments
-module.exports.destroy = function(req, res)
-{
-  Comment.findById(req.params.id, function(err, comment)
-  {
-    //here we are going inside comment models and finding the comment
-    //which the user clicked to delete
-    if(comment.user == req.user.id){
-        //if the user who posted that comment is same as the user trying to delete the comment
-        let postId = comment.post;
-        comment.remove();
-        Post.findByIdAndUpdate(postId, {$pull:{comments: req.params.id}}, function(err, post){
-            return res.redirect('back');
-        })
-    }else{
-        //if the user trying to delete the comment is different from user who posted that comment
-        //send the control back to the user
-        return res.redirect('back');
-    } 
-  })
-}
-
-//delete comments by post-created-user
-module.exports.destroyByPost = function(req, res)
-{
-  Comment.findById(req.params.id, function(err, comment)
-  {
-    //here we are going inside comment models and finding the comment
-    //which the user clicked to delete
-    if(comment.postCretedByUserId == req.user.id){
-        //if the user who posted that comment is same as the user trying to delete the comment
-        let postId = comment.post;
-        comment.remove();
-        Post.findByIdAndUpdate(postId, {$pull:{comments: req.params.id}}, function(err, post){
-            return res.redirect('back');
-        })
-    }else{
-        //if the user trying to delete the comment is different from user who posted that comment
-        //send the control back to the user
-        return res.redirect('back');
-    } 
-  })
-}
+//delete comments if the logged in user owns the post on which the comment is posted
+module.exports.destroyByPostOwner = async function (req, res) {
+  try {
+    let comment = await Comment.findById(req.params.id);
+    if (comment.parentPostUserId == req.user.id) {
+      let postId = comment.postId;
+      comment.remove();
+      let post = Post.findByIdAndUpdate(postId, {
+        $pull: { comments: req.params.id },
+      });
+      return res.redirect("back");
+    } else {
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log("Error", err);
+    return;
+  }
+};

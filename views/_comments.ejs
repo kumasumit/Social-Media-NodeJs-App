@@ -1,16 +1,18 @@
 <li>
     <p>
-        <% if(locals.user && locals.user.id == comment.user.id) { %>
+        <% if(locals.user && locals.user.id == comment.userId) { %>
                 <!-- if the id of ther logged in user an dthe id of user who created the comment is same, only then show the delete button  -->
         <small>
             <a href="/comments/destroy/<%= comment.id %>">X</a>
         </small>
-        <% } else if(locals.user && comment.postCretedByUserId == locals.user.id) { %>
+        <% } else if(locals.user && comment.parentPostUserId == locals.user.id) { %>
             <small>
                 <a href="/comments/destroyByPost/<%= comment.id %>">X</a>
             </small>            
         <% } %>
         <%= comment.content %><br />
-        <%= comment.user.name %>
+        <%= comment.userId %>
+        <%= comment.parentPostUserId %>
+        <%= comment.postId %>
     </p>
 </li>

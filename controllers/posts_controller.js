@@ -1,5 +1,6 @@
 const Post = require('../models/posts');
 const Comment = require('../models/comments');
+
 //controller to create a post
 module.exports.create = async function (req, res) {
     try {
@@ -17,7 +18,7 @@ module.exports.create = async function (req, res) {
 }
 
 //delete a post and all associated comments
-module.exports.destroy = function (req, res) {
+module.exports.destroy = async function (req, res) {
     try {
         //find a post by id and store it in a post variable
         let post = await Post.findById(req.params.id);

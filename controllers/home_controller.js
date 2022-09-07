@@ -8,13 +8,13 @@ module.exports.home = async function (req, res) {
         //any success response of Post.find will be stored in posts 
         let posts = await Post.find({})
             //find({}) this will find all the posts
-            .populate('user')
+            .populate('userId')
             //this will popluate the user which created that post
             .populate({
                 path: 'comments',
                 // this will populate all the comments for that post
                 populate: {
-                    path: 'user'
+                    path: 'userId'
                     // this will populate the user which created that comment    
                 }
             })

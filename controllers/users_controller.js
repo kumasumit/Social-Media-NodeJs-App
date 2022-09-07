@@ -1,14 +1,12 @@
 const User = require('../models/users');
 
-module.exports.profile = function(req, res){
-    User.findById(req.params.id, function(err, user){
-        //here params.id is the id of the user on which you clicked
-        res.render('user_profile', {
-            title: "User Profile",
-            profile_user: user
-        })
-    })
-    
+module.exports.profile = async function(req, res){
+    let user = User.findById(req.params.id);
+    //here params.id is the id of the user on which you clicked
+    res.render('user_profile', {
+        title: "User Profile",
+        profile_user: user
+    })    
 }
 //Controller for Sign Up Form Submission
 // create User
@@ -45,11 +43,11 @@ module.exports.create = function(req, res){
 module.exports.createSession = function(req, res){
     return res.redirect('/');
 }
-//Controller to render the signin page
+//Controller to render the signup page
 module.exports.signUp = function(req, res)
 {   if(req.isAuthenticated())
     {
-    //  if user is alreday signed in , send the user to the profile page
+    //  if user is already signed in , send the user to the profile page
     return res.redirect('/users/profile')
     }
     return res.render('user_sign_up', {
@@ -59,7 +57,7 @@ module.exports.signUp = function(req, res)
 
 
 
-//controller to render the signup page
+//controller to render the signin page
 module.exports.signIn = function(req, res)
 {   if(req.isAuthenticated())
     {
