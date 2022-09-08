@@ -1,4 +1,4 @@
-<li>
+<li id="post-<%= post._id %>">
     <% if(locals.user && (locals.user.id == post.userId.id)) {%>
          <small>
           <a href="/posts/destroy/<%= post.id %>">X</a>
