@@ -24,7 +24,7 @@ module.exports.home = async function (req, res) {
         //User.find({}) will display all the users in the database 
         // Step 3: return posts and users to the home view page, home.ejs page    
         return res.render('home', {
-            title: " FreindBook || Home",
+            title: " FriendBook || Home",
             posts: posts,
             all_users: users
         });

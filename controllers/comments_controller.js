@@ -3,14 +3,18 @@ const Post = require("../models/posts");
 
 //controller to create a comment
 module.exports.create = async function (req, res) {
+  // console.log(req.body.post);
   try {
-    let post = await Post.findById(req.body.postId);
+    let post = await Post.findById(req.body.post);
+    // console.log(post);
+    // console.log(post.userId); id of owner of the post on which comment has been done
+    // console.log(req.user._id); id of user who is logged in and has posted that comment on the post
     if (post) {
       let comment = await Comment.create({
         content: req.body.content,
         userId: req.user._id,
-        postId: req.body.postId,
-        parentPostUserId: post.userId,
+        postId: req.body.post,
+        parentPostUserId: post.userId._id,
       });
       post.comments.push(comment);
       post.save();
@@ -26,13 +30,11 @@ module.exports.create = async function (req, res) {
 module.exports.destroy = async function (req, res) {
   try {
     let comment = await Comment.findById(req.params.id);
-
+    // console.log(comment.userId);
     if (comment.userId == req.user.id) {
       let postId = comment.postId;
-
       comment.remove();
-
-      let post = Post.findByIdAndUpdate(postId, {
+      await Post.findByIdAndUpdate(postId, {
         $pull: { comments: req.params.id },
       });
       return res.redirect("back");
@@ -52,7 +54,7 @@ module.exports.destroyByPostOwner = async function (req, res) {
     if (comment.parentPostUserId == req.user.id) {
       let postId = comment.postId;
       comment.remove();
-      let post = Post.findByIdAndUpdate(postId, {
+      await Post.findByIdAndUpdate(postId, {
         $pull: { comments: req.params.id },
       });
       return res.redirect("back");

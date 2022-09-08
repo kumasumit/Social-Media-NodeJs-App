@@ -9,7 +9,7 @@
         <%= post.userId.name %>
         <!-- display.name only if post.userId exists, if it does not do nothing -->
     </p>
-    <!-- <div class="post-comments">
+    <div class="post-comments">
         <% if(locals.user) { %>
           <form action="/comments/create" method="POST">
             <input
@@ -20,6 +20,7 @@
             />
             <input type="hidden" name="post" value="<%= post._id %>" />
             <input type="submit" value="Add Comment" />
+
           </form>
           <% } %>
         <div class="post-comments-list">
@@ -29,5 +30,5 @@
                 <% } %>
             </ul>
         </div>
-    </div> -->
+    </div>
 </li>

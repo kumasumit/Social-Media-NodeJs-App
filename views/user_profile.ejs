@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="/css/user_profile.css">
 <h1>
     FriendBook / Profile Page
+    <h2>
+        hi
+        <%= profile_user.name %>
+    </h2>
 </h1>
 <% if(user.id == profile_user.id) { %>
     <form action="/users/update/<%= profile_user.id %>" method="POST">

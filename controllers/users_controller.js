@@ -1,12 +1,27 @@
 const User = require('../models/users');
 
+//view the profile page of individual user
 module.exports.profile = async function(req, res){
-    let user = User.findById(req.params.id);
+    // console.log(req.params.id);
+    let user = await User.findById(req.params.id);
+    // console.log(user);
     //here params.id is the id of the user on which you clicked
     res.render('user_profile', {
         title: "User Profile",
         profile_user: user
     })    
+}
+
+//controller to update profile if user is logged in and viewing his own profile
+module.exports.update = function(req, res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            return res.redirect('back');
+
+        })
+    }else{
+        return res.status(401).send('Unauthorized');
+    }
 }
 //Controller for Sign Up Form Submission
 // create User
@@ -29,7 +44,7 @@ module.exports.create = function(req, res){
                     return;
                 }
                 //after creating the user redirect the user to sign in page for the new user to sign in
-                return res.redirect('users/sign-in');
+                return res.redirect('sign-in');
             })
         }
         // if the user is already present send the control back to sign up page
@@ -48,7 +63,7 @@ module.exports.signUp = function(req, res)
 {   if(req.isAuthenticated())
     {
     //  if user is already signed in , send the user to the profile page
-    return res.redirect('/users/profile')
+    return res.redirect('profile')
     }
     return res.render('user_sign_up', {
         title: "FriendBook | Sign Up"
@@ -62,7 +77,7 @@ module.exports.signIn = function(req, res)
 {   if(req.isAuthenticated())
     {
     //if user is logged in, redirect it to the profile page
-    return res.redirect('/users/profile')
+    return res.redirect('profile')
     }
     return res.render('user_sign_in', {
         title: "FriendBook | Sign In" 
@@ -80,14 +95,3 @@ module.exports.destroySession = function(req, res, next)
       
 }
 
-//controller to update profile
-module.exports.update = function(req, res){
-    if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
-            return res.redirect('back');
-
-        })
-    }else{
-        return res.status(401).send('Unauthorized');
-    }
-}
