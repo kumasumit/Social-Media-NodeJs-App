@@ -8,12 +8,16 @@ module.exports.create = async function (req, res) {
         let post = await Post.create({
             content: req.body.content,
             userId: req.user._id
+        //here userId stores only the id of the user not the complete user reference
         })
         //check whether the incoming req is ajax/JQuery request
         if(req.xhr){
+            post.userId = req.user;
+            //this will store the user reference with name email and password  
+            //now we return the post as json data
             return res.status(200).json({
                 data: {
-                    post: post
+                    post: post,
                     // here post is the post we just created above
                 },
                 message:"Post Created!"
@@ -39,6 +43,17 @@ module.exports.destroy = async function (req, res) {
             //delete the post
             //go inside comments and search all the comments belonging to a particular post and delete them
             await Comment.deleteMany({ postId: req.params.id });
+            // after the post and all its associated comments have been deleted from the database
+            //we check if the req object is ajax/jquery req object
+            if(req.xhr){
+            //  console.log(req.params.id);
+              return res.status(200).json({
+                data: {
+                    post_id: req.params.id
+                },
+                message: 'Post deleted !'
+              })
+            }
             return res.redirect('back');
         }
         //if no post is found for that id, send the control back

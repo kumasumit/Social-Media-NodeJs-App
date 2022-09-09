@@ -8,6 +8,9 @@ module.exports.home = async function (req, res) {
         //any success response of Post.find will be stored in posts 
         let posts = await Post.find({})
             //find({}) this will find all the posts
+            .sort('-createdAt')
+            // this will sort the post is descending order wrt to TimeRanges,
+            // the post created last will be displayed first
             .populate('userId')
             //this will popluate the user which created that post
             .populate({
