@@ -21,6 +21,7 @@ app.use(sassMiddleware({
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static('./assets')) // for getting static files in root/assets folder
+app.use('/uploads', express.static(__dirname+"/uploads"));
 app.use(expressLayout);
 //extract style and scripts from sub pages into the layout
 app.set('layout extractStyles',true);
