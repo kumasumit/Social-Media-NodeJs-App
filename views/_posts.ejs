@@ -11,7 +11,7 @@
     </p>
     <div id="post-comments">
         <% if(locals.user) { %>
-          <form action="/comments/create" method="POST">
+          <form id="post-<%= post._id %>-create-comments-form" action="/comments/create" method="POST">
             <input
               type="text"
               name="content"

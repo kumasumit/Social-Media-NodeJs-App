@@ -7,9 +7,13 @@
     </h2>
 </h1>
 <% if(user.id == profile_user.id) { %>
-    <form action="/users/update/<%= profile_user.id %>" method="POST">
+    <form action="/users/update/<%= profile_user.id %>"
+        enctype="multipart/form-data" method="POST">
+        <!-- enctype="multipart/form-data" tells the browser the form takes also files as input in place of plain text  -->
+        <!-- now to parse this input boxes we need multer not body parser -->
         <input type="text" name="name" placeholder="Your Name" value="<%= profile_user.name %>" required>
         <input type="email" name="email" placeholder="Your Email" value="<%= profile_user.email %>" required>
+        <input type="file" name="avatar" placeholder="">
         <input type="submit" value="Update">
     </form>
 <% }else { %>

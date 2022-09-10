@@ -12,13 +12,12 @@
                 data: newPostForm.serialize(),
                 //serialize will convert the form data into json data
                 success: function (data) {
-                    // console.log(data.data.post);
+                    console.log(data.data.post._id);
                     let newPost = newPostDom(data.data.post);
                     // console.log($(newPost));
                     // console.log($(' .delete-post-button', newPost).prop('href'));
                     // here we go to posts-lists-container and insde ul and prepend the newPost that we just added to the dom at the top, the latest post appears at the top
                     $('#posts-list-container>ul').prepend(newPost);
-
                     deletePost($(' .delete-post-button', newPost));
                     //this will go inside new post and find the link with class delete-post-button
                     $('#new-post-form')[0].reset();
@@ -45,14 +44,15 @@
             <!-- display.name only if post.userId exists, if it does not do nothing -->
         </p>
         <div class="post-comments">
-              <form action="/comments/create" method="POST">
+              <form id="post-${post._id}-create-comments-form" action="/comments/create" method="POST">
                 <input
                   type="text"
                   name="content"
                   placeholder="Add Comments ...."
                   required
                 />
-                <input type="hidden" name="post" value="<%= post._id %>" />
+                <input type="hidden" name="post" 
+                value="${post._id}" />
                 <input type="submit" value="Add Comment" />
               </form>
             <div class="post-comments-list">
@@ -68,7 +68,6 @@
     //method to delete a post from DOM
     let deletePost = function(deleteLink){
         // console.log("sumit-rahul");
-        
         $(deleteLink).click(function(event){
             event.preventDefault();
             //this will prevent the default behaviour on click of that delete link
