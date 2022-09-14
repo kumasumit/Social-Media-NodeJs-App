@@ -23,7 +23,13 @@ const commentSchema = new mongoose.Schema({
     parentPostUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    }, 
+    likes:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Like'  
+        },
+    ],
 }, {
     timestamps: true
     // we have used timestamps to store createdAt and updatedAt
