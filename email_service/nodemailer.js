@@ -14,6 +14,10 @@ const path = require('path');
   });
 
   let renderTemplate = (data, relativePath)=>{
+    console.log("==========================");
+    console.log(data);
+    console.log("==========================");
+
     let mailHTML;
     ejs.renderFile(
         path.join(__dirname, '../views/mailers', relativePath), 
@@ -34,7 +38,30 @@ const path = require('path');
     return mailHTML;
   }
 
+  const sendEmail = (emailDetails) => {
+    const {to, from, subject,text, htmlString} = emailDetails;
+
+  //sendmail is a predefined function
+  transporter.sendMail({
+    from:from, // sender address
+    to: to, // list of receivers
+    subject: subject, // Subject line
+    text: text, // plain text body
+    html: htmlString, // html template
+    }, (err, info)=>{
+        //this is the callback function
+        // err is simply error
+        //info is the info about the request being sent
+        if(err){
+            console.log("Error in sending mail", err);
+            return;
+        }
+        console.log('Message sent', info);
+        return;
+    })
+
+  }
   module.exports= {
-    transporter: transporter,
-    renderTemplate: renderTemplate
+    renderTemplate: renderTemplate,
+    sendEmail: sendEmail,
   }

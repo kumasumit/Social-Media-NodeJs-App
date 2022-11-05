@@ -1,0 +1,12 @@
+<div>
+    <p>Hi <%= tokenData.userId.name%>!</p>
+    <br>
+    <br>
+    
+    <p>please click the link here
+    <a href="http://localhost:8080/users/passwordReset?token=<%= tokenData.token %>&id=<%= tokenData.userId._id %>"> click here </a>
+</p>
+    <br>
+    <br>
+    <p>Thanks!</p>
+</div>

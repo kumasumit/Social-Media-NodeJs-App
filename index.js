@@ -1,3 +1,4 @@
+require("./email_service/job_worker");
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
